@@ -27,7 +27,7 @@ upload with: python script.py upload <optionally options>
 
 CLUSTER_ID = "18000000-c53b-4ea9-ae22-ac4415e2cf21"
 
-_REFRESH_TOKEN = "os.environ.get("REFRESH_TOKEN", "")  # Set this env var for stage/prod testing"
+_REFRESH_TOKEN = os.environ.get("REFRESH_TOKEN", "")  # Set this env var for stage/prod testing
 
 _TOKEN_URL = os.environ.get(
     "TOKEN_URL", "https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token"
