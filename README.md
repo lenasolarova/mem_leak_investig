@@ -26,7 +26,6 @@ This circular reference chain keeps objects alive indefinitely, causing the memo
 Run locally in Podman to:      
 - Send large volumes of data without ephemeral environment costs          
 - Benchmark the performance    
-- Observe sawtooth memory patterns
  
 ### 2. Local Testing Setup     
  
@@ -34,7 +33,7 @@ Run locally in Podman to:
  
 **Local Deployment:**          
  
-1. **Optional** (if not already in docker-compose file):                  
+1. **Optional**:                  
    ```bash 
    # Inside ingress clone directory                   
    docker build . -t ingress:latest                   
@@ -75,21 +74,15 @@ This monitors all 5 ccx-messaging based containers every 5 seconds, capturing:
  
 ### Sending Test Archives      
  
-1. **Continuous Mode (60 minutes, no breaks):**          
+1. **Continuous Mode (4 hours, no breaks):**          
 ```bash    
 python send_archives.py upload 
-```        
-- Sends ~36,000 archives over 60 minutes              
-- 0.1s delay between archives (10 archives/sec)       
-- Mimics production steady stream workload            
+```                   
  
 2. **Burst Mode (with 5-minute breaks):**                
 ```bash    
 python send_archives.py upload --breaks               
-```        
-- 3 cycles of: 15 min sending + 5 min break           
-- ~27,000 archives total       
-- Shows if memory releases during idle periods        
+```              
  
 ---        
  
@@ -106,15 +99,10 @@ python send_archives.py upload --breaks
 ## Expected Results            
  
 ### Healthy System             
-- Memory increases during processing                  
-- Memory releases back to baseline during idle periods
-- GC collects objects regularly
+- Stable memory at load
  
 ### Memory Leak (Current Behavior)
-- Memory continuously climbs over time                
-- No release during idle periods  
-- GC collected objects = 0 (circular references prevent collection)       
-- Sawtooth pattern with increasing baseline           
+- Memory continuously climbs over time                         
  
 ---        
  
@@ -130,8 +118,7 @@ local_monitoring_YYYYMMDD_HHMMSS/
  
 Key metrics to watch:          
 - `mem_usage_mb` - Should stabilize or decrease after processing          
-- `collected` - Should be > 0 if GC is working        
-- `gen2` - Long-lived objects should eventually be promoted and collected 
+ 
  
 ---        
  

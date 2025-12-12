@@ -27,12 +27,13 @@ done
 
 START_TIME=$(date +%s)
 ITERATION=0
+ELAPSED_MIN=0
 
 echo "Monitoring started at $(date)"
 echo "Press Ctrl+C to stop"
 echo ""
 
-while true; do
+while [ "$ELAPSED_MIN" -lt 240 ]; do
     CURRENT_TIME=$(date +%s)
     ELAPSED=$((CURRENT_TIME - START_TIME))
     ELAPSED_MIN=$((ELAPSED / 60))

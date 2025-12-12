@@ -1,0 +1,50 @@
+MemTotal:        8025424 kB
+MemFree:          564856 kB
+MemAvailable:    5179176 kB
+Buffers:         1308064 kB
+Cached:          1313600 kB
+SwapCached:        48920 kB
+Active:          1732264 kB
+Inactive:        3226120 kB
+Active(anon):    1572452 kB
+Inactive(anon):   764496 kB
+Active(file):     159812 kB
+Inactive(file):  2461624 kB
+Unevictable:           0 kB
+Mlocked:               0 kB
+SwapTotal:       1048572 kB
+SwapFree:         586424 kB
+Zswap:                 0 kB
+Zswapped:              0 kB
+Dirty:             28344 kB
+Writeback:             0 kB
+AnonPages:       2266452 kB
+Mapped:           196220 kB
+Shmem:               224 kB
+KReclaimable:    2195856 kB
+Slab:            2368648 kB
+SReclaimable:    2195856 kB
+SUnreclaim:       172792 kB
+KernelStack:       12688 kB
+PageTables:        16640 kB
+SecPageTables:         0 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:     5061284 kB
+Committed_AS:    9579264 kB
+VmallocTotal:   135288315904 kB
+VmallocUsed:        5832 kB
+VmallocChunk:          0 kB
+Percpu:             4960 kB
+AnonHugePages:    149504 kB
+ShmemHugePages:        0 kB
+ShmemPmdMapped:        0 kB
+FileHugePages:         0 kB
+FilePmdMapped:         0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       2048 kB
+Hugetlb:               0 kB

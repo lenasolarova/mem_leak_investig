@@ -86,8 +86,8 @@ def upload_ocp_recommendations(with_breaks=False):
     Memory leak test pattern
 
     Continuous mode (with_breaks=False):
-    - 60 min continuous sending at 0.1s delay
-    - ~36,000 archives total
+    - 4 hour continuous sending at 0.1s delay
+    - ~144,000 archives total
     - Mimics production steady stream
 
     Burst mode (with_breaks=True):
@@ -152,10 +152,10 @@ def upload_ocp_recommendations(with_breaks=False):
 
     else:
         # Continuous mode
-        TEST_DURATION = 60 * 60  # 60 minutes
+        TEST_DURATION = 4 * 60 * 60  # 4 hours (240 minutes)
 
         print(f"\n{'='*60}")
-        print(f"CONTINUOUS MODE: 60min steady stream")
+        print(f"CONTINUOUS MODE: 4 hour steady stream")
         print(f"Delay: {DELAY_BETWEEN_ARCHIVES}s between archives")
         print(f"{'='*60}\n")
 
@@ -188,7 +188,7 @@ def upload_ocp_recommendations(with_breaks=False):
             time.sleep(DELAY_BETWEEN_ARCHIVES)
 
         print(f"\n{'='*60}")
-        print(f"TEST COMPLETE - {archives_sent} archives sent in 60 minutes")
+        print(f"TEST COMPLETE - {archives_sent} archives sent in 4 hours")
         print(f"{'='*60}\n")
 
 
