@@ -2,7 +2,8 @@
 
 ## Overview
  
-Investigation of memory leaks in CCX messaging services, specifically focusing on the insights-core Broker component.                 
+Investigation of memory leaks in CCX messaging services. Since the leak is present in all ccx-messaging services we need to investigate
+what the common utilities, libraries etc are.        
  
 ## Suspected Root Cause        
  
@@ -42,31 +43,30 @@ Run locally in Podman to:
  
 2. **Start local environment:**
    ```bash 
-   # Inside local deploy repo  
+   # Inside local deploy repo
    docker compose up -d        
    ```     
  
 3. **Setup archive sending script:**                  
    ```bash 
-   # Inside the script-sending repo                   
+   # Inside the mem leak repo                   
    python3 -m venv venv        
    source venv/bin/activate    
    export PIP_INDEX_URL=https://repository.engineering.redhat.com/nexus/repository/insights-qe/simple             
    pip install -r requirements.txt
    ```     
- 
 ---        
  
 ## Running Tests               
  
 ### Monitoring Memory Usage    
  
-Start monitoring **before** sending archives:         
+Start monitoring:         
  
 ```bash    
 ./monitor_all_local.sh         
 ```        
- 
+
 This monitors all 5 ccx-messaging based containers every 5 seconds, capturing:            
 - Docker stats (CPU, memory, network I/O)             
 - Python GC statistics         
@@ -74,17 +74,10 @@ This monitors all 5 ccx-messaging based containers every 5 seconds, capturing:
  
 ### Sending Test Archives      
  
-1. **Continuous Mode (4 hours, no breaks):**          
+1. **Continuous local sending (4 hours):**          
 ```bash    
 python send_archives.py upload 
-```                   
- 
-2. **Burst Mode (with 5-minute breaks):**                
-```bash    
-python send_archives.py upload --breaks               
-```              
- 
----        
+```                                   
  
 ## Containers Monitored        
  
@@ -93,39 +86,16 @@ python send_archives.py upload --breaks
 3. **archive-sync-ols** 
 4. **multiplexor** 
 5. **rules-processing**          
- 
----        
- 
-## Expected Results            
- 
-### Healthy System             
-- Stable memory at load
- 
-### Memory Leak (Current Behavior)
-- Memory continuously climbs over time                         
- 
----        
- 
-## Data Analysis               
- 
-Monitoring data is saved to timestamped directories:  
-```        
-local_monitoring_YYYYMMDD_HHMMSS/ 
-├── <container>_docker_stats.csv  
-├── <container>_gc_stats.csv   
-└── <container>_proc_meminfo/  
-```        
- 
-Key metrics to watch:          
-- `mem_usage_mb` - Should stabilize or decrease after processing          
- 
- 
----        
- 
+             
 ## Files in This Repository    
  
 - `send_archives.py` - Archive upload script with continuous/burst modes  
 - `monitor_all_local.sh` - Comprehensive monitoring for all CCX containers
-- `monitor_local.sh` - Single container monitoring script                 
-- `local_monitoring_*/` - Monitoring data output directories              
-- `README.md` - This file      
+- directories with results of the monitoring as explained below
+
+### 3. Results
+- **baseline** - confirmed leak - /pre_fix_verified_leak
+- **extra monitoring** (more logging, monitoring brokers) - still leaky /monitored_still_leaky
+- **dr.py fix** - suspected circular references, containers run with a patch, possibly promising results, but needs more testing - /dr_py_still_leaky
+
+Results are visualised in their directories
